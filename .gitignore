@@ -2,3 +2,4 @@ venv
 outputs/*
 !outputs/.gitkeep
 *.ipynb
+templates/list_ip.yaml

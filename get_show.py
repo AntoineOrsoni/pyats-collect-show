@@ -25,6 +25,8 @@ testbed = load(template.render(list_ip_id = zip(list_ip, range(len(list_ip)))))
 
 # Writting each file
 for device in testbed:
+
+    linecard = "A900-IMA8CS1Z-M"
     
     device.connect(learn_hostname=True,
                    init_exec_commands=[],
@@ -33,15 +35,19 @@ for device in testbed:
 
     print(f'-- {device.hostname} --')
 
-    with open(f'./outputs/{device.hostname}.txt', 'w') as file:
+    # If the linecard is not in the chassis, skip
+    if linecard not in device.execute('show platform'):
+        print(f'  {linecard} not in chassis')
+        continue
+    else:
+        with open(f'./outputs/{device.hostname}.txt', 'w') as file:
 
-        # Collect and write each output
-        for show in list_show:
-            file.write(f'--- {show} ---\n')
-            file.write(device.execute(show))
-            file.write('\n\n')
+            # Collect and write each output
+            for show in list_show:
+                file.write(f'--- {show} ---\n')
+                file.write(device.execute(show))
+                file.write('\n\n')
 
-    print('  done')
+        print('  done')
 
     device.disconnect()
-
