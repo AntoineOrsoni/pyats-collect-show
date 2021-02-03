@@ -1,6 +1,7 @@
 import yaml
 import jinja2
 from genie.testbed import load
+from unicon.core.errors import ConnectionError
 
 with open("./templates/list_ip.yaml", "r") as file:
     list_ip = yaml.load(file, Loader=yaml.FullLoader)
@@ -26,12 +27,18 @@ testbed = load(template.render(list_ip_id = zip(list_ip, range(len(list_ip)))))
 # Writting each file
 for device in testbed:
 
+    
     linecard = "A900-IMA8CS1Z-M"
     
-    device.connect(learn_hostname=True,
-                   init_exec_commands=[],
-                   init_config_commands=[],
-                   log_stdout=False)
+    try:
+        device.connect(learn_hostname=True,
+                    init_exec_commands=[],
+                    init_config_commands=[],
+                    log_stdout=False)
+    except ConnectionError:
+        print("-- ERROR --")
+        print(f"  Can't connect to {device.connections.vty.ip}")
+        continue
 
     print(f'-- {device.hostname} --')
 

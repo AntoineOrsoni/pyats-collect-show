@@ -19,5 +19,7 @@ devices:
         settings:
           GRACEFUL_DISCONNECT_WAIT_SEC: 0
           POST_DISCONNECT_WAIT_SEC: 0
+        arguments:
+          connection_timeout: 10
 {% endfor %}
 
