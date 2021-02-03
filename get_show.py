@@ -18,6 +18,9 @@ template_env = jinja2.Environment(loader=template_loader)
 # Which file is my template
 template = template_env.get_template("testbed.tpl")
 
+# We give the template two lists:
+# - list_ip: the IP of our devices
+# - range(len(list_ip)), the id (from 0 to the max device) that will be used in device.name to make it unique
 testbed = load(template.render(list_ip_id = zip(list_ip, range(len(list_ip)))))
 
 # Writting each file
@@ -32,9 +35,13 @@ for device in testbed:
 
     with open(f'./outputs/{device.hostname}.txt', 'w') as file:
 
+        # Collect and write each output
         for show in list_show:
             file.write(f'--- {show} ---\n')
             file.write(device.execute(show))
             file.write('\n\n')
+
     print('  done')
+
     device.disconnect()
+
