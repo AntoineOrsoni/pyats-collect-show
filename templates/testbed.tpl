@@ -1,5 +1,5 @@
 testbed:
-  name: ASR900
+  name: XRDocs
   credentials:
     default:
       username: cisco
@@ -9,9 +9,9 @@ testbed:
       
 devices:
 {% for ip, id in list_ip_id %}
-  ASR900_{{id}}:
-    type: iosxe
-    os: iosxe
+  Node_{{id}}:
+    type: iosxr
+    os: iosxr
     connections:
       vty:
         protocol: telnet
