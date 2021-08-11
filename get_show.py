@@ -47,9 +47,9 @@ for device in testbed:
             try:
                 file.write(device.execute(show))
                 file.write('\n\n')
-            except unicon.core.errors.SubCommandFailure:
-                print('Show command unknown. Skipping.')
+            except SubCommandFailure:
+                print(f'  /!\ `{show}` invalid command. Skipping.')
 
-        print('  done')
+        print('show commands successfuly collected.')
 
     device.disconnect()
