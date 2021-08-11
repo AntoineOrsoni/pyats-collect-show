@@ -1,7 +1,7 @@
 import yaml
 import jinja2
 from genie.testbed import load
-from unicon.core.errors import ConnectionError
+from unicon.core.errors import ConnectionError, SubCommandFailure
 
 with open("./templates/list_ip.yaml", "r") as file:
     list_ip = yaml.load(file, Loader=yaml.FullLoader)
@@ -26,9 +26,6 @@ testbed = load(template.render(list_ip_id = zip(list_ip, range(len(list_ip)))))
 
 # Writting each file
 for device in testbed:
-
-    
-    linecard = "A900-IMA8CS1Z-M"
     
     try:
         device.connect(learn_hostname=True,
@@ -42,18 +39,16 @@ for device in testbed:
 
     print(f'-- {device.hostname} --')
 
-    # If the linecard is not in the chassis, skip
-    if linecard not in device.execute('show platform'):
-        print(f'  {linecard} not in chassis')
-        continue
-    else:
-        with open(f'./outputs/{device.hostname}.txt', 'w') as file:
+    with open(f'./outputs/{device.hostname}.txt', 'w') as file:
 
-            # Collect and write each output
-            for show in list_show:
-                file.write(f'--- {show} ---\n')
+        # Collect and write each output
+        for show in list_show:
+            file.write(f'--- {show} ---\n')
+            try:
                 file.write(device.execute(show))
                 file.write('\n\n')
+            except unicon.core.errors.SubCommandFailure:
+                print('Show command unknown. Skipping.')
 
         print('  done')
 

@@ -1,4 +1,4 @@
 - show platform
 - show inventory
-- show environment
+- show ipv6 interface brief 
 - show hw-module subslot all sensors

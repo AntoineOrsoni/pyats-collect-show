@@ -25,7 +25,6 @@ MarkupSafe==1.1.1
 multidict==4.7.6
 netaddr==0.8.0
 pathspec==0.8.1
-pkg-resources==0.0.0
 ply==3.11
 prettytable==2.0.0
 psutil==5.8.0
@@ -67,3 +66,5 @@ xmltodict==0.12.0
 yamllint==1.26.0
 yarl==1.5.1
 zipp==3.4.0
+pyaml==21.8.3
+PyYAML==5.4.1

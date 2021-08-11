@@ -2,19 +2,17 @@ testbed:
   name: XRDocs
   credentials:
     default:
-      username: cisco
-      password: cisco
-    enable:
-      password: cisco
+      username: admin
+      password: C1sco12345
       
 devices:
 {% for ip, id in list_ip_id %}
   Node_{{id}}:
-    type: iosxr
+    type: iosxr-devnet
     os: iosxr
     connections:
       vty:
-        protocol: telnet
+        protocol: ssh
         ip: {{ip}}
         settings:
           GRACEFUL_DISCONNECT_WAIT_SEC: 0
@@ -22,4 +20,3 @@ devices:
         arguments:
           connection_timeout: 10
 {% endfor %}
-
